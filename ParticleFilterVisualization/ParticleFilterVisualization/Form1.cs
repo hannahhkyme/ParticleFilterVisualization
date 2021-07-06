@@ -38,13 +38,16 @@ namespace ParticleFilterVisualization
                 p1.update();
                 p1.update_weights();
                 p1.correct();
+                p1.weight_list_x();
+                p1.weight_list_y();
                 // make coordinate list 
-                double w1 = 0.333;
-                w1xList = p1.weight_list_x(w1);
-                w1yList = p1.weight_list_x(w1);
-                double w2 = 0.666;
-                w1xList = p1.weight_list_x(w2);
-                w1yList = p1.weight_list_x(w2);
+                w1xList = p1.w1_list_x;
+                w1yList = p1.w1_list_y;
+                w2xList = p1.w2_list_x;
+                w2yList = p1.w2_list_y;
+                w3yList = p1.w3_list_y;
+                w3xList = p1.w3_list_x;
+
 
                 if (map.IsHandleCreated)
                 {
@@ -75,6 +78,9 @@ namespace ParticleFilterVisualization
             for (int i = 0; i < w1xList.Count; ++i)
             {
                 map.Series["Series1"].Points.AddXY(w1xList[i], w1yList[i]);
+            }
+            for (int i = 0; i < w2xList.Count; ++i)
+            {
                 map.Series["Series2"].Points.AddXY(w2xList[i], w2yList[i]);
             }
         }
@@ -108,10 +114,16 @@ namespace ParticleFilterVisualization
         {
             ParticleFilter p1 = new ParticleFilter();
             p1.create();
-            System.WriteLine(p1.particleList[0].X);
-            //cpuThread = new Thread(new ThreadStart(this.getParticleCoordinates));
-            //cpuThread.IsBackground = true;
-            //cpuThread.Start();
+            
+            cpuThread = new Thread(new ThreadStart(this.getParticleCoordinates));
+            cpuThread.IsBackground = true;
+            cpuThread.Start();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cpuThread.Abort();
 
         }
     }
