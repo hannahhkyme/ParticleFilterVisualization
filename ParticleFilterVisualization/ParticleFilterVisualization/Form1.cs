@@ -22,7 +22,8 @@ namespace ParticleFilterVisualization
         List<double> w3xList = new List<double>();
         List<double> w3yList = new List<double>();
         ParticleFilter p1 = new ParticleFilter();
-
+        Boolean stopHere = true;
+        List<double> errorList = new List<double>();
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +34,7 @@ namespace ParticleFilterVisualization
         {
             Random random_num = new Random();
             p1.create();
-            while (true)
+            while (stopHere)
             {
                 p1.update();
                 p1.update_weights();
@@ -48,6 +49,10 @@ namespace ParticleFilterVisualization
                 w3yList = p1.w3_list_y;
                 w3xList = p1.w3_list_x;
 
+                // range_error creator
+                List<double> meanList = p1.calculating_mean_particle();
+                double currentError = calculateRangeError(meanList);
+                errorList.Add(currentError);
 
                 if (map.IsHandleCreated)
                 {
@@ -70,11 +75,22 @@ namespace ParticleFilterVisualization
                 Thread.Sleep(100);
             }
         }
-
+        private double calculateRangeError(List<double> meanList)
+        {
+            double realRange = p1.calc_range_error();
+            // calc particle range
+            Particle meanParticle = new Particle();
+            meanParticle.X = meanList[0];
+            meanParticle.Y = meanList[1];
+            double particleRange = meanParticle.calc_particle_range(p1.r1.X, p1.r1.Y);
+            double rangeError = realRange - particleRange;
+            return rangeError;
+        }
         private void UpdateMap()
         {
             map.Series["Series1"].Points.Clear();
             map.Series["Series2"].Points.Clear();
+            map.Series["Series3"].Points.Clear();
             for (int i = 0; i < w1xList.Count; ++i)
             {
                 map.Series["Series1"].Points.AddXY(w1xList[i], w1yList[i]);
@@ -83,14 +99,18 @@ namespace ParticleFilterVisualization
             {
                 map.Series["Series2"].Points.AddXY(w2xList[i], w2yList[i]);
             }
+            for (int i = 0; i < w3xList.Count; ++i)
+            {
+                map.Series["Series3"].Points.AddXY(w3xList[i], w3yList[i]);
+            }
         }
 
         private void UpdateChart1()
         {
             errorMap.Series["Series1"].Points.Clear();
-            for (int i = 0; i < w1xList.Count; ++i)
+            for (int i = 0; i < errorList.Count; ++i)
             {
-                errorMap.Series["Series1"].Points.AddXY(w1xList[i], w1yList[i]);
+                errorMap.Series["Series1"].Points.AddY(errorList[i]);
             }
 
         }
@@ -112,8 +132,6 @@ namespace ParticleFilterVisualization
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ParticleFilter p1 = new ParticleFilter();
-            p1.create();
             
             cpuThread = new Thread(new ThreadStart(this.getParticleCoordinates));
             cpuThread.IsBackground = true;
@@ -124,7 +142,7 @@ namespace ParticleFilterVisualization
         private void button2_Click(object sender, EventArgs e)
         {
             cpuThread.Abort();
-
+            stopHere = false;
         }
     }
 }

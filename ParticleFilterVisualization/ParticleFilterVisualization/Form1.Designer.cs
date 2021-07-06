@@ -36,6 +36,7 @@ namespace ParticleFilterVisualization
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.errorMap = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.map = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.start = new System.Windows.Forms.Button();
@@ -54,9 +55,10 @@ namespace ParticleFilterVisualization
             this.errorMap.Margin = new System.Windows.Forms.Padding(2);
             this.errorMap.Name = "errorMap";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
             this.errorMap.Series.Add(series1);
             this.errorMap.Size = new System.Drawing.Size(378, 357);
             this.errorMap.TabIndex = 0;
@@ -65,6 +67,10 @@ namespace ParticleFilterVisualization
             // 
             // map
             // 
+            chartArea2.AxisX.Maximum = 150D;
+            chartArea2.AxisX.Minimum = -150D;
+            chartArea2.AxisY.Maximum = 150D;
+            chartArea2.AxisY.Minimum = -150D;
             chartArea2.Name = "ChartArea1";
             this.map.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
@@ -74,14 +80,22 @@ namespace ParticleFilterVisualization
             this.map.Name = "map";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             series3.Legend = "Legend1";
             series3.Name = "Series2";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series4.Color = System.Drawing.Color.Red;
+            series4.Legend = "Legend1";
+            series4.Name = "Series3";
             this.map.Series.Add(series2);
             this.map.Series.Add(series3);
+            this.map.Series.Add(series4);
             this.map.Size = new System.Drawing.Size(365, 332);
             this.map.TabIndex = 1;
             this.map.Text = "map";

@@ -20,17 +20,11 @@ namespace ParticleFilterVisualization
 
             // Class Members
             INITIAL_PARTICLE_RANGE = 150;
-            // X_P = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            X = 2.0;
-            //Y_P = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            Y = 1.5;
-            //Z_P = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            Z = 3.0;
-            //V_P = random_num.Next(0, 5);
-            V = 1.0;
-            //THETA_P = random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
-            THETA = 3.14 / 2;
-
+            X = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            Y = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            Z = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            V = random_num.Next(0, 5);
+            THETA = random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
             W = 0.5;
         }
 
@@ -144,44 +138,44 @@ namespace ParticleFilterVisualization
         }
 
 
-    /*
-        static void Main(string[] args)
-        {
-            Particle little_particle = new Particle();
+        /*
+            static void Main(string[] args)
+            {
+                Particle little_particle = new Particle();
 
-            //Testing Update Particles
-
-            
-            Console.WriteLine(little_particle.X_P);
-            Console.WriteLine(little_particle.Y_P);
-            little_particle.updateParticles(1.0);
-            Console.WriteLine(little_particle.X_P);
-            Console.WriteLine(little_particle.Y_P);
-            
-
-            //Testing Calc Particle Alpha
+                //Testing Update Particles
 
 
-            little_particle.THETA = 6.28;
-            little_particle.angle_wrap(little_particle.THETA);
-            Console.WriteLine("theta p");
-            Console.WriteLine(little_particle.THETA);
+                Console.WriteLine(little_particle.X_P);
+                Console.WriteLine(little_particle.Y_P);
+                little_particle.updateParticles(1.0);
+                Console.WriteLine(little_particle.X_P);
+                Console.WriteLine(little_particle.Y_P);
 
-            //Console.WriteLine(little_particle.calc_particle_range(5, 5.5));
-            double particle_range = little_particle.calc_particle_range(5, 5.5);
-            Console.WriteLine("particle_range");
-            Console.WriteLine(particle_range);
-            Console.WriteLine("particle_alpha");
-            //Console.WriteLine(little_particle.calc_particle_alpha(5,5.5,Math.PI));
-            double particle_alpha = little_particle.calc_particle_alpha(5, 5.5, Math.PI);
-            Console.WriteLine(particle_alpha);
-            Console.WriteLine("Weight before");
-            Console.WriteLine(little_particle.W);
-            little_particle.weight(1.57, particle_alpha, 8.0, particle_range);
-            Console.WriteLine("Weight After");
-            Console.WriteLine(little_particle.W);
 
-        }
-    */
+                //Testing Calc Particle Alpha
+
+
+                little_particle.THETA = 6.28;
+                little_particle.angle_wrap(little_particle.THETA);
+                Console.WriteLine("theta p");
+                Console.WriteLine(little_particle.THETA);
+
+                //Console.WriteLine(little_particle.calc_particle_range(5, 5.5));
+                double particle_range = little_particle.calc_particle_range(5, 5.5);
+                Console.WriteLine("particle_range");
+                Console.WriteLine(particle_range);
+                Console.WriteLine("particle_alpha");
+                //Console.WriteLine(little_particle.calc_particle_alpha(5,5.5,Math.PI));
+                double particle_alpha = little_particle.calc_particle_alpha(5, 5.5, Math.PI);
+                Console.WriteLine(particle_alpha);
+                Console.WriteLine("Weight before");
+                Console.WriteLine(little_particle.W);
+                little_particle.weight(1.57, particle_alpha, 8.0, particle_range);
+                Console.WriteLine("Weight After");
+                Console.WriteLine(little_particle.W);
+
+            }
+        */
     }
 }
