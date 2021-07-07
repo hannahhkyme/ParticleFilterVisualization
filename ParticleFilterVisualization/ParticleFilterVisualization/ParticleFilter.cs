@@ -6,7 +6,7 @@ namespace ParticleFilterVisualization
     {
         public int NUMBER_OF_PARTICLES;
         public double Current_Time;
-        List<Particle> particleList = new List<Particle>();
+        public List<Particle> particleList = new List<Particle>();
         public Shark s1;
         public Robot r1;
         public List<double> w1_list_x;
@@ -22,17 +22,17 @@ namespace ParticleFilterVisualization
 
         public ParticleFilter()
         {
-            Current_Time = 0;
-            NUMBER_OF_PARTICLES = 15;
-            r1 = new Robot();
-            s1 = new Shark();
-            w1_list_x = new List<double>();
-            w2_list_x = new List<double>();
-            w3_list_x = new List<double>();
-            w1_list_y = new List<double>();
-            w2_list_y = new List<double>();
-            w3_list_y = new List<double>();
-            errorList = new List<double>();
+            this.Current_Time = 0;
+            this.NUMBER_OF_PARTICLES = 3;
+            this.r1 = new Robot();
+            this.s1 = new Shark();
+            this.w1_list_x = new List<double>();
+            this.w2_list_x = new List<double>();
+            this.w3_list_x = new List<double>();
+            this.w1_list_y = new List<double>();
+            this.w2_list_y = new List<double>();
+            this.w3_list_y = new List<double>();
+            this.errorList = new List<double>();
         }
 
     public double angle_wrap(double ang)
@@ -42,8 +42,8 @@ namespace ParticleFilterVisualization
             return ang;
         }
         else
-        {
-            ang = ang % Math.PI;
+         {
+            ang %= Math.PI;
             return angle_wrap(ang);
         }
     }
@@ -68,23 +68,25 @@ namespace ParticleFilterVisualization
     double calc_alpha_error()
     {
         // calculates the average particles position to the true sharks' position
-       double auvAlpha = angle_wrap(Math.Atan2((r1.Y - s1.Y), (r1.X - s1.X))) - r1.THETA;
+        double auvAlpha = angle_wrap(Math.Atan2((r1.Y - s1.Y), (r1.X - s1.X))) - r1.THETA;
         return auvAlpha;
     }
 
     public void create()
-    {
-        for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
-        {
-            particleList.Add(new Particle());
+    {    
+            Particle particle1 = new Particle();
+            particleList.Add(particle1);
+            Particle particle2 = new Particle();
+            particleList.Add(particle2);
+            Particle particle3 = new Particle();
+            particleList.Add(particle3);
         }
-    }
     public void update()
     {
         // updates particles while simulated
         // returns new list of updated particles
 
-        for (int i = 0; i < particleList.Count; ++i)
+        for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             particleList[i].updateParticles();
         }
@@ -97,7 +99,7 @@ namespace ParticleFilterVisualization
         //Console.WriteLine(auv_range);
         double auv_alpha = this.calc_alpha_error();
 
-        for (int i = 0; i < particleList.Count; ++i)
+        for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             double particle_range = particleList[i].calc_particle_range(r1.X, r1.Y);
             double particle_alpha = particleList[i].calc_particle_alpha(r1.X, r1.Y, r1.THETA);
@@ -110,9 +112,9 @@ namespace ParticleFilterVisualization
     public void correct()
     {
         //corrects the particles, adding more copies of particles based on how high the weight is
-        int length_particleList = particleList.Count;
+        
 
-        for (int i = 0; i < length_particleList; ++i)
+        for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             if (particleList[i].W <= 0.333)
             {
@@ -146,7 +148,7 @@ namespace ParticleFilterVisualization
 
     public void weight_list_x()
     {
-        for (int i = 0; i < particleList.Count; ++i)
+        for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             if (particleList[i].W <= 0.333)
             {
@@ -166,7 +168,7 @@ namespace ParticleFilterVisualization
     }
         public void weight_list_y()
         {
-            for (int i = 0; i < particleList.Count; ++i)
+            for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
             {
                 if (particleList[i].W <= 0.333)
                 {
@@ -186,7 +188,7 @@ namespace ParticleFilterVisualization
             {
             double particle_total_x = 0;
             double particle_total_y = 0;
-            for (int i = 0; i < particleList.Count; ++i)
+            for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
                 {
                 particle_total_x += particleList[i].X;
                 particle_total_y += particleList[i].Y;

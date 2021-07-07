@@ -17,17 +17,15 @@ namespace ParticleFilterVisualization
         public double W;
         public Particle()
         {
-
             // Class Members
-            INITIAL_PARTICLE_RANGE = 150;
-            X = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            Y = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            Z = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            V = random_num.Next(0, 5);
-            THETA = random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
-            W = 0.5;
+            this.INITIAL_PARTICLE_RANGE = 150;
+            this.X = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.Y = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.Z = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.V = random_num.Next(0, 5);
+            this.THETA = random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
+            this.W = 0.5;
         }
-
 
 
         double angle_wrap(double ang)

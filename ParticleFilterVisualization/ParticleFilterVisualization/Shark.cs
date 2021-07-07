@@ -12,11 +12,11 @@ namespace ParticleFilterVisualization
         public double V;
         public Shark()
         {
-            X = 30;
-            Y = 60;
-            Z = 3.0;
-            THETA  = Math.PI/2;
-            V = 3.0;
+            this.X = 30;
+            this.Y = 60;
+            this.Z = 3.0;
+            this.THETA  = Math.PI/2;
+            this.V = 3.0;
             
         }
 

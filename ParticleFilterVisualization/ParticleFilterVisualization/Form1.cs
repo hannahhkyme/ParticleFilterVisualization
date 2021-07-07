@@ -36,11 +36,12 @@ namespace ParticleFilterVisualization
             p1.create();
             while (stopHere)
             {
-                p1.update();
-                p1.update_weights();
-                p1.correct();
+                //p1.update();
+                //p1.update_weights();
+                //p1.correct();
                 p1.weight_list_x();
                 p1.weight_list_y();
+
                 // make coordinate list 
                 w1xList = p1.w1_list_x;
                 w1yList = p1.w1_list_y;
