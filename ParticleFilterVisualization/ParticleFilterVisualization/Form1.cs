@@ -34,11 +34,13 @@ namespace ParticleFilterVisualization
         {
             Random random_num = new Random();
             p1.create();
+            p1.s1.create_shark_list();
+            p1.r1.create_robot_list();
             while (stopHere)
             {
-                //p1.update();
-                //p1.update_weights();
-                //p1.correct();
+                p1.update();
+                p1.update_weights();
+                p1.correct();
                 p1.weight_list_x();
                 p1.weight_list_y();
 
@@ -89,29 +91,34 @@ namespace ParticleFilterVisualization
         }
         private void UpdateMap()
         {
-            map.Series["Series1"].Points.Clear();
-            map.Series["Series2"].Points.Clear();
-            map.Series["Series3"].Points.Clear();
+            map.Series["Weight1"].Points.Clear();
+            map.Series["Weight2"].Points.Clear();
+            map.Series["Weight3"].Points.Clear();
+            // map.Series["Shark"].Points.Clear();
+            map.Series["Shark"].Points.AddXY(p1.s1.shark_list_x[0], p1.s1.shark_list_y[0]);
+            double hey = p1.r1.robot_list_x.Count;
+            //double yes = p1.r1.robot_list_y[0];
+            map.Series["Robot"].Points.AddXY(p1.r1.robot_list_x[0], p1.r1.robot_list_y[0]);
             for (int i = 0; i < w1xList.Count; ++i)
             {
-                map.Series["Series1"].Points.AddXY(w1xList[i], w1yList[i]);
+                map.Series["Weight1"].Points.AddXY(w1xList[i], w1yList[i]);
             }
             for (int i = 0; i < w2xList.Count; ++i)
             {
-                map.Series["Series2"].Points.AddXY(w2xList[i], w2yList[i]);
+                map.Series["Weight2"].Points.AddXY(w2xList[i], w2yList[i]);
             }
             for (int i = 0; i < w3xList.Count; ++i)
             {
-                map.Series["Series3"].Points.AddXY(w3xList[i], w3yList[i]);
+                map.Series["Weight3"].Points.AddXY(w3xList[i], w3yList[i]);
             }
         }
 
         private void UpdateChart1()
         {
-            errorMap.Series["Series1"].Points.Clear();
+            errorMap.Series["Range Error"].Points.Clear();
             for (int i = 0; i < errorList.Count; ++i)
             {
-                errorMap.Series["Series1"].Points.AddY(errorList[i]);
+                errorMap.Series["Range Error"].Points.AddY(errorList[i]);
             }
 
         }

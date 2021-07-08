@@ -4,7 +4,7 @@ namespace ParticleFilterVisualization
 {
     internal class Particle
     {
-        Random random_num = new Random();
+       
         // SETS TYPE OF MEMBER VARIABLE
         public double X;
         public double Y;
@@ -13,18 +13,17 @@ namespace ParticleFilterVisualization
         public double V;
         public int INITIAL_PARTICLE_RANGE;
 
-
         public double W;
         public Particle()
         {
             // Class Members
             this.INITIAL_PARTICLE_RANGE = 150;
-            this.X = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            this.Y = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            this.Z = random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
-            this.V = random_num.Next(0, 5);
-            this.THETA = random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
-            this.W = 0.5;
+            this.X = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.Y = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.Z = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            this.V = MyGlobals.random_num.Next(0, 5);
+            this.THETA = MyGlobals.random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
+            this.W = 0.01;
         }
 
 
@@ -66,11 +65,11 @@ namespace ParticleFilterVisualization
             double RANDOM_THETA = Math.PI / 2;
 
             // updates velocity of particles
-            this.V += random_num.Next(0, RANDOM_VELOCITY);
+            this.V += MyGlobals.random_num.Next(0, RANDOM_VELOCITY);
             this.V = velocity_wrap(this.V);
 
             //change theta & pass through angle_wrap
-            this.THETA += random_num.NextDouble() * (2 * RANDOM_THETA) - RANDOM_THETA;
+            this.THETA += MyGlobals.random_num.NextDouble() * (2 * RANDOM_THETA) - RANDOM_THETA;
             this.THETA = angle_wrap(this.THETA);
 
             // change x & y coordinates to match
@@ -176,4 +175,8 @@ namespace ParticleFilterVisualization
             }
         */
     }
+}
+public static class MyGlobals
+{
+    public static Random random_num = new Random();
 }

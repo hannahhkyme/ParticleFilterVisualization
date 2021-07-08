@@ -23,7 +23,7 @@ namespace ParticleFilterVisualization
         public ParticleFilter()
         {
             this.Current_Time = 0;
-            this.NUMBER_OF_PARTICLES = 3;
+            this.NUMBER_OF_PARTICLES = 100;
             this.r1 = new Robot();
             this.s1 = new Shark();
             this.w1_list_x = new List<double>();
@@ -73,13 +73,11 @@ namespace ParticleFilterVisualization
     }
 
     public void create()
-    {    
-            Particle particle1 = new Particle();
-            particleList.Add(particle1);
-            Particle particle2 = new Particle();
-            particleList.Add(particle2);
-            Particle particle3 = new Particle();
-            particleList.Add(particle3);
+    {
+            for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
+            {
+                particleList.Add(new Particle());
+            }
         }
     public void update()
     {
@@ -113,7 +111,6 @@ namespace ParticleFilterVisualization
     {
         //corrects the particles, adding more copies of particles based on how high the weight is
         
-
         for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             if (particleList[i].W <= 0.333)
@@ -203,3 +200,4 @@ namespace ParticleFilterVisualization
     }
 
 }
+

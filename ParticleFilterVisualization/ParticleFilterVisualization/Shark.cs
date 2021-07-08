@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace ParticleFilterVisualization
 {
     internal class Shark
@@ -10,19 +11,25 @@ namespace ParticleFilterVisualization
         public double Z;
         public double THETA;
         public double V;
+        public List<double> shark_list_x;
+        public List<double> shark_list_y;
+
         public Shark()
         {
-            this.X = 30;
+            this.X = 120;
             this.Y = 60;
             this.Z = 3.0;
             this.THETA  = Math.PI/2;
             this.V = 3.0;
-            
+            this.shark_list_x = new List<double>();
+            this.shark_list_y = new List<double>();
+
         }
 
-        void create_shark()
+        public void create_shark_list()
         {
-            // creates sharks
+            this.shark_list_x.Add(this.X);
+            this.shark_list_y.Add(this.Y);
         }
         void update_shark()
         {
