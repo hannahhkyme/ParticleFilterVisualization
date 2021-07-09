@@ -16,10 +16,10 @@ namespace ParticleFilterVisualization
 
         public Shark()
         {
-            this.X = 120;
-            this.Y = 0;
+            this.X = -27;
+            this.Y = -130;
             this.Z = 3.0;
-            this.THETA  = Math.PI/2;
+            this.THETA  = Math.PI/3;
             this.V = 3.0;
             this.shark_list_x = new List<double>();
             this.shark_list_y = new List<double>();

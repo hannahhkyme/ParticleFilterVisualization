@@ -18,7 +18,7 @@ namespace ParticleFilterVisualization
             this.X = 0;
             this.Y = 0;
             this.Z = 3.0;
-            this.THETA = Math.PI;
+            this.THETA = -Math.PI/3;
             this.V = 3.0;
             this.robot_list_x = new List<double>();
             this.robot_list_y = new List<double>();

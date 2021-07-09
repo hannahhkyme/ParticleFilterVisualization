@@ -40,13 +40,17 @@ namespace ParticleFilterVisualization
         if (-Math.PI <= ang & ang <= Math.PI)
         {
             return ang;
+        } else if (ang > Math.PI)
+            {
+                ang -= 2 * Math.PI;
+                return angle_wrap(ang);
+            }
+         else
+            {
+                ang += 2 * Math.PI;
+                return angle_wrap(ang);
+            }
         }
-        else
-         {
-            ang = ang % Math.PI;
-            return angle_wrap(ang);
-        }
-    }
     public double velocity_wrap(double vel)
     {
         if (vel <= 5)
@@ -81,15 +85,18 @@ namespace ParticleFilterVisualization
             }
             /*
             Particle particle1 = new Particle();
+            particle1.X = 27;
+            particle1.Y = 130;
             particleList.Add(particle1);
 
             Particle particle2 = new Particle();
-            particle2.X = 60;
+            particle2.X = -27;
+            particle2.Y = -130;
 
             particleList.Add(particle2);
-
+            /*
             Particle particle3 = new Particle();
-            particle3.X = 0;
+            particle3.Y = -60;
             particleList.Add(particle3);
             */
 
@@ -127,38 +134,47 @@ namespace ParticleFilterVisualization
     }
     public void correct()
     {
-        //corrects the particles, adding more copies of particles based on how high the weight is
-        
+            //corrects the particles, adding more copies of particles based on how high the weight is
+            List<Particle> tempList = new List<Particle>();
+
         for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             if (particleList[i].W <= 0.333)
             {
                 Particle particle1 = particleList[i].DeepCopy();
-                particleList.Add(particle1);
+                tempList.Add(particle1);
 
 
             }
             else if (particleList[i].W <= 0.666)
             {
                 Particle particle1 = particleList[i].DeepCopy();
-                particleList.Add(particle1);
+                tempList.Add(particle1);
                 Particle particle2 = particleList[i].DeepCopy();
-                particleList.Add(particle2);
+                tempList.Add(particle2);
 
             }
             else
             {
                 Particle particle1 = particleList[i].DeepCopy();
-                particleList.Add(particle1);
+                tempList.Add(particle1);
                 Particle particle2 = particleList[i].DeepCopy();
-                particleList.Add(particle2);
+                tempList.Add(particle2);
                 Particle particle3 = particleList[i].DeepCopy();
-                particleList.Add(particle3);
+                tempList.Add(particle3);
                 Particle particle4 = particleList[i].DeepCopy();
-                particleList.Add(particle4);
+                tempList.Add(particle4);
             }
 
         }
+            particleList = new List<Particle>();
+            for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
+            {
+                int index = MyGlobals.random_num.Next(0,tempList.Count);
+                Particle particleIndex = tempList[index].DeepCopy();
+                particleList.Add(particleIndex);
+
+            }
     }
 
     public void weight_list_x()

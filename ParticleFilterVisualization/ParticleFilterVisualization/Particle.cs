@@ -20,9 +20,12 @@ namespace ParticleFilterVisualization
             this.INITIAL_PARTICLE_RANGE = 150;
             this.X = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
             this.Y = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
+            //this.X = 120;
+            //this.Y = 0;
             this.Z = MyGlobals.random_num.Next(-INITIAL_PARTICLE_RANGE, INITIAL_PARTICLE_RANGE);
             this.V = MyGlobals.random_num.Next(0, 5);
             this.THETA = MyGlobals.random_num.NextDouble() * (2 * Math.PI) + -Math.PI;
+            //this.THETA = Math.PI/3;
             this.W = 0.01;
         }
 
@@ -33,21 +36,24 @@ namespace ParticleFilterVisualization
             {
                 return ang;
             }
-            else
+            else if (ang > Math.PI) 
             {
-                ang = ang % Math.PI;
+                ang -= 2 * Math.PI;
+                return angle_wrap(ang);
+            } else {
+                ang += 2 * Math.PI;
                 return angle_wrap(ang);
             }
         }
         double velocity_wrap(double vel)
         {
-            if (vel <= 5)
+            if (vel <= 2)
             {
                 return vel;
             }
             else
             {
-                vel += -5;
+                vel += -2;
                 return velocity_wrap(vel);
             }
         }
@@ -61,11 +67,11 @@ namespace ParticleFilterVisualization
                     generally set to .1, but it should be whatever the "time.sleep" is set to in the main loop
             */
             // pull out
-            int RANDOM_VELOCITY = 5;
+            double RANDOM_VELOCITY = 2;
             double RANDOM_THETA = Math.PI / 2;
 
             // updates velocity of particles
-            this.V += MyGlobals.random_num.Next(0, RANDOM_VELOCITY);
+            this.V += MyGlobals.random_num.NextDouble()* RANDOM_VELOCITY;
             this.V = velocity_wrap(this.V);
 
             //change theta & pass through angle_wrap

@@ -99,10 +99,7 @@ namespace ParticleFilterVisualization
             map.Series["Weight2"].Points.Clear();
             map.Series["Weight3"].Points.Clear();
             // map.Series["Shark"].Points.Clear();
-            map.Series["Shark"].Points.AddXY(p1.s1.shark_list_x[0], p1.s1.shark_list_y[0]);
-            double hey = p1.r1.robot_list_x.Count;
-            //double yes = p1.r1.robot_list_y[0];
-            map.Series["Robot"].Points.AddXY(p1.r1.robot_list_x[0], p1.r1.robot_list_y[0]);
+            
             for (int i = 0; i < w1xList.Count; ++i)
             {
                 map.Series["Weight1"].Points.AddXY(w1xList[i], w1yList[i]);
@@ -115,6 +112,10 @@ namespace ParticleFilterVisualization
             {
                 map.Series["Weight3"].Points.AddXY(w3xList[i], w3yList[i]);
             }
+            map.Series["Shark"].Points.AddXY(p1.s1.shark_list_x[0], p1.s1.shark_list_y[0]);
+            double hey = p1.r1.robot_list_x.Count;
+            //double yes = p1.r1.robot_list_y[0];
+            map.Series["Robot"].Points.AddXY(p1.r1.robot_list_x[0], p1.r1.robot_list_y[0]);
         }
 
         private void UpdateChart1()
