@@ -83,7 +83,7 @@ namespace ParticleFilterVisualization
         {
             // calculates the alpha value of a particle
 
-            double particleAlpha = angle_wrap(Math.Atan2((Y - y_auv), (X - x_auv))) - theta_auv;
+            double particleAlpha = angle_wrap(Math.Atan2((this.Y - y_auv), (this.X - x_auv)) - theta_auv);
             return particleAlpha;
         }
 
@@ -112,7 +112,7 @@ namespace ParticleFilterVisualization
 
             this.W = function_alpha;
 
-            double SIGMA_RANGE = 100.0;
+            double SIGMA_RANGE = 10.0;
             double DENOMINATOR2 = (Math.Pow(SIGMA_RANGE, 2));
             double dRange = Math.Pow(particleRange - auv_range, 2);
             double function_range = .001 + Math.Pow(E, -dRange / DENOMINATOR2);

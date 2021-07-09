@@ -17,7 +17,7 @@ namespace ParticleFilterVisualization
         public Shark()
         {
             this.X = 120;
-            this.Y = 60;
+            this.Y = 0;
             this.Z = 3.0;
             this.THETA  = Math.PI/2;
             this.V = 3.0;

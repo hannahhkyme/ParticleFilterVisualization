@@ -38,9 +38,12 @@ namespace ParticleFilterVisualization
             p1.r1.create_robot_list();
             while (stopHere)
             {
+                
                 p1.update();
+                
                 p1.update_weights();
                 p1.correct();
+                
                 p1.weight_list_x();
                 p1.weight_list_y();
 
@@ -74,6 +77,7 @@ namespace ParticleFilterVisualization
                 {
                     //......
                 }
+
 
                 Thread.Sleep(100);
             }

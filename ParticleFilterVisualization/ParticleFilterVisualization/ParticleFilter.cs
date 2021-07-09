@@ -23,7 +23,7 @@ namespace ParticleFilterVisualization
         public ParticleFilter()
         {
             this.Current_Time = 0;
-            this.NUMBER_OF_PARTICLES = 100;
+            this.NUMBER_OF_PARTICLES = 1000;
             this.r1 = new Robot();
             this.s1 = new Shark();
             this.w1_list_x = new List<double>();
@@ -43,7 +43,7 @@ namespace ParticleFilterVisualization
         }
         else
          {
-            ang %= Math.PI;
+            ang = ang % Math.PI;
             return angle_wrap(ang);
         }
     }
@@ -62,22 +62,37 @@ namespace ParticleFilterVisualization
     public double calc_range_error()
     {
         // calculates the average particles position to the true sharks' position
-        double auvRange = Math.Sqrt(Math.Pow((s1.Y-r1.Y), 2) + Math.Pow((r1.X - s1.X), 2));
+        double auvRange = Math.Sqrt(Math.Pow((s1.Y-r1.Y), 2) + Math.Pow((s1.X - r1.X), 2));
         return auvRange;
     }
     double calc_alpha_error()
     {
         // calculates the average particles position to the true sharks' position
-        double auvAlpha = angle_wrap(Math.Atan2((r1.Y - s1.Y), (r1.X - s1.X))) - r1.THETA;
+        double auvAlpha = angle_wrap(Math.Atan2((s1.Y - r1.Y), (s1.X - r1.X)) - r1.THETA);
         return auvAlpha;
     }
 
     public void create()
     {
+            
             for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
             {
                 particleList.Add(new Particle());
             }
+            /*
+            Particle particle1 = new Particle();
+            particleList.Add(particle1);
+
+            Particle particle2 = new Particle();
+            particle2.X = 60;
+
+            particleList.Add(particle2);
+
+            Particle particle3 = new Particle();
+            particle3.X = 0;
+            particleList.Add(particle3);
+            */
+
         }
     public void update()
     {
@@ -96,12 +111,15 @@ namespace ParticleFilterVisualization
         double auv_range = this.calc_range_error();
         //Console.WriteLine(auv_range);
         double auv_alpha = this.calc_alpha_error();
-
+        List<double> particle_range_list = new List<double>();
+        List<double> particle_alpha_list = new List<double>();
         for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             double particle_range = particleList[i].calc_particle_range(r1.X, r1.Y);
+            particle_range_list.Add(particle_range);
             double particle_alpha = particleList[i].calc_particle_alpha(r1.X, r1.Y, r1.THETA);
-            particleList[i].weight(auv_alpha, particle_alpha, auv_alpha, particle_alpha);
+            particle_alpha_list.Add(particle_alpha);
+            particleList[i].weight(auv_alpha, particle_alpha, auv_range, particle_range);
         }
 
 
@@ -145,6 +163,9 @@ namespace ParticleFilterVisualization
 
     public void weight_list_x()
     {
+       w1_list_x = new List<double>();
+       w2_list_x = new List<double>();
+       w3_list_x = new List<double>();
         for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
         {
             if (particleList[i].W <= 0.333)
@@ -165,6 +186,9 @@ namespace ParticleFilterVisualization
     }
         public void weight_list_y()
         {
+            w1_list_y = new List<double>();
+            w2_list_y = new List<double>();
+            w3_list_y = new List<double>();
             for (int i = 0; i < NUMBER_OF_PARTICLES; ++i)
             {
                 if (particleList[i].W <= 0.333)
