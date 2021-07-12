@@ -35,34 +35,7 @@ namespace ParticleFilterVisualization
             this.errorList = new List<double>();
         }
 
-    public double angle_wrap(double ang)
-    {
-        if (-Math.PI <= ang & ang <= Math.PI)
-        {
-            return ang;
-        } else if (ang > Math.PI)
-            {
-                ang -= 2 * Math.PI;
-                return angle_wrap(ang);
-            }
-         else
-            {
-                ang += 2 * Math.PI;
-                return angle_wrap(ang);
-            }
-        }
-    public double velocity_wrap(double vel)
-    {
-        if (vel <= 5)
-        {
-            return vel;
-        }
-        else
-        {
-            vel += -5;
-            return velocity_wrap(vel);
-        }
-    }
+   
     public double calc_range_error()
     {
         // calculates the average particles position to the true sharks' position
@@ -72,7 +45,7 @@ namespace ParticleFilterVisualization
     double calc_alpha_error()
     {
         // calculates the average particles position to the true sharks' position
-        double auvAlpha = angle_wrap(Math.Atan2((s1.Y - r1.Y), (s1.X - r1.X)) - r1.THETA);
+        double auvAlpha = MyGlobals.angle_wrap(Math.Atan2((s1.Y - r1.Y), (s1.X - r1.X)) - r1.THETA);
         return auvAlpha;
     }
 

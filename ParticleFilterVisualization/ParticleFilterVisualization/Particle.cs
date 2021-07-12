@@ -183,6 +183,37 @@ namespace ParticleFilterVisualization
     }
 }
 public static class MyGlobals
+    
 {
     public static Random random_num = new Random();
+
+    static public double angle_wrap(double ang)
+    {
+        if (-Math.PI <= ang & ang <= Math.PI)
+        {
+            return ang;
+        }
+        else if (ang > Math.PI)
+        {
+            ang -= 2 * Math.PI;
+            return angle_wrap(ang);
+        }
+        else
+        {
+            ang += 2 * Math.PI;
+            return angle_wrap(ang);
+        }
+    }
+    static public double velocity_wrap(double vel)
+    {
+        if (vel <= 2)
+        {
+            return vel;
+        }
+        else
+        {
+            vel += -2;
+            return velocity_wrap(vel);
+        }
+    }
 }

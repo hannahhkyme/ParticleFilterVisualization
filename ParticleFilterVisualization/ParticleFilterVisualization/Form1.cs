@@ -55,9 +55,16 @@ namespace ParticleFilterVisualization
                 w3yList = p1.w3_list_y;
                 w3xList = p1.w3_list_x;
 
+                // update Shark Location
+                p1.s1.update_shark();
+                p1.s1.create_shark_list();
+
+                p1.r1.update_robot_position();
+                p1.r1.create_robot_list();
+
                 // range_error creator
                 List<double> meanList = p1.calculating_mean_particle();
-                double currentError = calculateRangeError(meanList);
+                double currentError = Math.Abs(calculateRangeError(meanList));
                 errorList.Add(currentError);
 
                 if (map.IsHandleCreated)
@@ -98,8 +105,8 @@ namespace ParticleFilterVisualization
             map.Series["Weight1"].Points.Clear();
             map.Series["Weight2"].Points.Clear();
             map.Series["Weight3"].Points.Clear();
-            // map.Series["Shark"].Points.Clear();
-            
+            map.Series["Shark"].Points.Clear();
+            map.Series["Robot"].Points.Clear();
             for (int i = 0; i < w1xList.Count; ++i)
             {
                 map.Series["Weight1"].Points.AddXY(w1xList[i], w1yList[i]);

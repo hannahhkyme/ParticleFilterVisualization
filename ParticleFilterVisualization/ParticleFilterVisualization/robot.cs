@@ -27,19 +27,33 @@ namespace ParticleFilterVisualization
 
         public void create_robot_list()
         {
+            this.robot_list_x = new List<double>();
+            this.robot_list_y = new List<double>();
+
             this.robot_list_x.Add(this.X);
             this.robot_list_y.Add(this.Y);
         }
 
-        void update_robot_position(double velocity, double ang_velocity )
+        public void update_robot_position( )
         {
+            // should update the sharks position after 
+            double RANDOM_VELOCITY = 2;
+            double RANDOM_THETA = Math.PI / 2;
 
+            // updates velocity of particles
+            this.V += MyGlobals.random_num.NextDouble() * RANDOM_VELOCITY;
+            this.V = MyGlobals.velocity_wrap(this.V);
+
+            //change theta & pass through angle_wrap
+            this.THETA += MyGlobals.random_num.NextDouble() * (2 * RANDOM_THETA) - RANDOM_THETA;
+            this.THETA = MyGlobals.angle_wrap(this.THETA);
+
+            // change x & y coordinates to match
+            this.X += this.V * Math.Cos(this.THETA);
+            this.Y += this.V * Math.Sin(this.THETA);
         }
 
-        void calc_new_robot_position()
-        {
-
-        }
+       
 
     }
 }
