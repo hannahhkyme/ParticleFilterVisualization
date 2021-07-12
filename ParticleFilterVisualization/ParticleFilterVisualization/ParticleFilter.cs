@@ -194,7 +194,7 @@ namespace ParticleFilterVisualization
                 }
             }
         }
-    public List<double> calculating_mean_particle()
+    public List<double> predicting_shark_location()
             {
             double particle_total_x = 0;
             double particle_total_y = 0;
@@ -211,6 +211,7 @@ namespace ParticleFilterVisualization
             return mean_particle;
             }
     }
+    
 
 }
 

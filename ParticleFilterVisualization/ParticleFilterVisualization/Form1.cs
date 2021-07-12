@@ -21,51 +21,81 @@ namespace ParticleFilterVisualization
         List<double> w2yList = new List<double>();
         List<double> w3xList = new List<double>();
         List<double> w3yList = new List<double>();
-        ParticleFilter p1 = new ParticleFilter();
+        ParticleFilter particle_filter = new ParticleFilter();
         Boolean stopHere = true;
         List<double> errorList = new List<double>();
+        List<double> PredictedSharkXList = new List<double>();
+        List<double> PredictedSharkYList = new List<double>();
         public Form1()
         {
             InitializeComponent();
             
         }
+        public void create_simulation()
+        {
+            particle_filter.create();
+            particle_filter.s1.create_shark_list();
+            particle_filter.r1.create_robot_list();
+        }
 
+        private void update_pf()
+        {
+            particle_filter.update();
+            particle_filter.update_weights();
+        }
+        private void update_weight_lists()
+        {
+            w1xList = particle_filter.w1_list_x;
+            w1yList = particle_filter.w1_list_y;
+            w2xList = particle_filter.w2_list_x;
+            w2yList = particle_filter.w2_list_y;
+            w3yList = particle_filter.w3_list_y;
+            w3xList = particle_filter.w3_list_x;
+        }
+        private void shark_motion()
+        {
+            particle_filter.correct();
+
+            // update Shark Location
+            particle_filter.s1.update_shark();
+            particle_filter.s1.create_shark_list();
+        }
+        private void create_range_error()
+        {
+            List<double> predictedList = particle_filter.predicting_shark_location();
+            double currentError = Math.Abs(calculateRangeError(predictedList));
+            calculate_predicted_shark(predictedList);
+            errorList.Add(currentError);
+        }
+        private void update_robot_location()
+        {
+            particle_filter.r1.update_robot_position();
+            particle_filter.r1.create_robot_list();
+        }
         private void getParticleCoordinates()
         {
-            Random random_num = new Random();
-            p1.create();
-            p1.s1.create_shark_list();
-            p1.r1.create_robot_list();
+            create_simulation();
+            double count = 0;
             while (stopHere)
             {
-                
-                p1.update();
-                
-                p1.update_weights();
-                p1.correct();
-                
-                p1.weight_list_x();
-                p1.weight_list_y();
+                count += 10;
+                update_pf();
+                bool get_new_measurement = particle_filter.s1.get_shark_measurement();
+                if (count % 80== 0)
+                {
+                    shark_motion();
+                }
+
+                particle_filter.weight_list_x();
+                particle_filter.weight_list_y();
 
                 // make coordinate list 
-                w1xList = p1.w1_list_x;
-                w1yList = p1.w1_list_y;
-                w2xList = p1.w2_list_x;
-                w2yList = p1.w2_list_y;
-                w3yList = p1.w3_list_y;
-                w3xList = p1.w3_list_x;
+                update_weight_lists();
 
-                // update Shark Location
-                p1.s1.update_shark();
-                p1.s1.create_shark_list();
-
-                p1.r1.update_robot_position();
-                p1.r1.create_robot_list();
+                update_robot_location();
 
                 // range_error creator
-                List<double> meanList = p1.calculating_mean_particle();
-                double currentError = Math.Abs(calculateRangeError(meanList));
-                errorList.Add(currentError);
+                create_range_error();
 
                 if (map.IsHandleCreated)
                 {
@@ -91,22 +121,33 @@ namespace ParticleFilterVisualization
         }
         private double calculateRangeError(List<double> meanList)
         {
-            double realRange = p1.calc_range_error();
+            double realRange = particle_filter.calc_range_error();
             // calc particle range
             Particle meanParticle = new Particle();
             meanParticle.X = meanList[0];
             meanParticle.Y = meanList[1];
-            double particleRange = meanParticle.calc_particle_range(p1.r1.X, p1.r1.Y);
+            double particleRange = meanParticle.calc_particle_range(particle_filter.r1.X, particle_filter.r1.Y);
             double rangeError = realRange - particleRange;
             return rangeError;
         }
+
+        private void calculate_predicted_shark(List<double> meanList)
+        {
+            PredictedSharkXList = new List<double>();
+            PredictedSharkYList = new List<double>();
+            PredictedSharkXList.Add(meanList[0]);
+            PredictedSharkYList.Add(meanList[1]);
+        }
         private void UpdateMap()
         {
+            map.Series["Predicted Shark"].Points.Clear();
             map.Series["Weight1"].Points.Clear();
             map.Series["Weight2"].Points.Clear();
             map.Series["Weight3"].Points.Clear();
             map.Series["Shark"].Points.Clear();
             map.Series["Robot"].Points.Clear();
+           
+            
             for (int i = 0; i < w1xList.Count; ++i)
             {
                 map.Series["Weight1"].Points.AddXY(w1xList[i], w1yList[i]);
@@ -119,10 +160,12 @@ namespace ParticleFilterVisualization
             {
                 map.Series["Weight3"].Points.AddXY(w3xList[i], w3yList[i]);
             }
-            map.Series["Shark"].Points.AddXY(p1.s1.shark_list_x[0], p1.s1.shark_list_y[0]);
-            double hey = p1.r1.robot_list_x.Count;
-            //double yes = p1.r1.robot_list_y[0];
-            map.Series["Robot"].Points.AddXY(p1.r1.robot_list_x[0], p1.r1.robot_list_y[0]);
+            map.Series["Predicted Shark"].Points.AddXY(PredictedSharkXList[0], PredictedSharkYList[0]);
+            map.Series["Shark"].Points.AddXY(particle_filter.s1.shark_list_x[0], particle_filter.s1.shark_list_y[0]);
+            double hey = particle_filter.r1.robot_list_x.Count;
+            //double yes = particle_filter.r1.robot_list_y[0];
+            map.Series["Robot"].Points.AddXY(particle_filter.r1.robot_list_x[0], particle_filter.r1.robot_list_y[0]);
+            
         }
 
         private void UpdateChart1()

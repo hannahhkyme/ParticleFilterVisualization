@@ -16,8 +16,8 @@ namespace ParticleFilterVisualization
 
         public Shark()
         {
-            this.X = -27;
-            this.Y = -130;
+            this.X = 45;
+            this.Y = 45;
             this.Z = 3.0;
             this.THETA  = Math.PI/3;
             this.V = 3.0;
@@ -53,6 +53,18 @@ namespace ParticleFilterVisualization
             this.Y += this.V * Math.Sin(this.THETA);
 
         }
-       
+        public bool get_shark_measurement()
+        {
+            bool get_measurement = new bool();
+            int get_measurement_value = MyGlobals.random_num.Next(1, 10);
+            if (get_measurement_value <= 3)
+            {
+                get_measurement = false;
+            }
+            else {
+                get_measurement = true;
+            }
+            return get_measurement;
+        }
     }
 }
