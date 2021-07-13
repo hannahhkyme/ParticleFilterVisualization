@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace ParticleFilterVisualization
 {
-    internal class Shark
+    public class Shark
     {
         Random random_num = new Random();
         // SETS TYPE OF MEMBER VARIABLE

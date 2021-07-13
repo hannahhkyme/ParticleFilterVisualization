@@ -181,11 +181,13 @@ namespace ParticleFilterVisualization
             }
         */
     }
-}
+
 public static class MyGlobals
     
 {
     public static Random random_num = new Random();
+    
+    public static Shark s1 = new Shark();
 
     static public double angle_wrap(double ang)
     {
@@ -216,4 +218,5 @@ public static class MyGlobals
             return velocity_wrap(vel);
         }
     }
+}
 }

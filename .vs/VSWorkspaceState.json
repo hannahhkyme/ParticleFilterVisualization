@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ParticleFilterVisualization",
+    "\\ParticleFilterVisualization\\ParticleFilterVisualization",
+    "\\ParticleFilterVisualization\\ParticleFilterVisualization\\obj",
+    "\\ParticleFilterVisualization\\ParticleFilterVisualization\\Properties"
   ],
+  "SelectedNode": "\\ParticleFilterVisualization\\ParticleFilterVisualization\\Form1.cs",
   "PreviewInSolutionExplorer": false
 }

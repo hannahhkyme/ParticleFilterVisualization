@@ -15,13 +15,21 @@ namespace ParticleFilterVisualization
     public partial class Form1 : Form
     {
         private Thread cpuThread;
-        List<double>  w1xList = new List<double> ();
-        List<double> w1yList = new List<double>();
-        List<double> w2xList = new List<double>();
-        List<double> w2yList = new List<double>();
-        List<double> w3xList = new List<double>();
-        List<double> w3yList = new List<double>();
+        List<double>  w1xList_pf1 = new List<double> ();
+        List<double> w1yList_pf1 = new List<double>();
+        List<double> w2xList_pf1 = new List<double>();
+        List<double> w2yList_pf1 = new List<double>();
+        List<double> w3xList_pf1 = new List<double>();
+        List<double> w3yList_pf1 = new List<double>();
         ParticleFilter particle_filter = new ParticleFilter();
+        List<double>  w1xList_pf2 = new List<double> ();
+        List<double> w1yList_pf2 = new List<double>();
+        List<double> w2xList_pf2 = new List<double>();
+        List<double> w2yList_pf2 = new List<double>();
+        List<double> w3xList_pf2 = new List<double>();
+        List<double> w3yList_pf2 = new List<double>();
+        ParticleFilter particle_filter2 = new ParticleFilter();
+
         Boolean stopHere = true;
         List<double> errorList = new List<double>();
         List<double> PredictedSharkXList = new List<double>();
@@ -34,7 +42,7 @@ namespace ParticleFilterVisualization
         public void create_simulation()
         {
             particle_filter.create();
-            particle_filter.s1.create_shark_list();
+            MyGlobals.s1.create_shark_list();
             particle_filter.r1.create_robot_list();
         }
 
@@ -45,20 +53,29 @@ namespace ParticleFilterVisualization
         }
         private void update_weight_lists()
         {
-            w1xList = particle_filter.w1_list_x;
-            w1yList = particle_filter.w1_list_y;
-            w2xList = particle_filter.w2_list_x;
-            w2yList = particle_filter.w2_list_y;
-            w3yList = particle_filter.w3_list_y;
-            w3xList = particle_filter.w3_list_x;
+            w1xList_pf1 = particle_filter.w1_list_x;
+            w1yList_pf1 = particle_filter.w1_list_y;
+            w2xList_pf1 = particle_filter.w2_list_x;
+            w2yList_pf1 = particle_filter.w2_list_y;
+            w3yList_pf1 = particle_filter.w3_list_y;
+            w3xList_pf1 = particle_filter.w3_list_x;
+
+
+            w1xList_pf2 = particle_filter2.w1_list_x;
+            w1yList_pf2 = particle_filter2.w1_list_y;
+            w2xList_pf2 = particle_filter2.w2_list_x;
+            w2yList_pf2 = particle_filter2.w2_list_y;
+            w3yList_pf2 = particle_filter2.w3_list_y;
+            w3xList_pf2 = particle_filter2.w3_list_x;
+
         }
         private void shark_motion()
         {
             particle_filter.correct();
 
             // update Shark Location
-            particle_filter.s1.update_shark();
-            particle_filter.s1.create_shark_list();
+            MyGlobals.s1.update_shark();
+            MyGlobals.s1.create_shark_list();
         }
         private void create_range_error()
         {
@@ -80,7 +97,7 @@ namespace ParticleFilterVisualization
             {
                 count += 10;
                 update_pf();
-                bool get_new_measurement = particle_filter.s1.get_shark_measurement();
+                bool get_new_measurement = MyGlobals.s1.get_shark_measurement();
                 if (count % 80== 0)
                 {
                     shark_motion();
@@ -148,20 +165,21 @@ namespace ParticleFilterVisualization
             map.Series["Robot"].Points.Clear();
            
             
-            for (int i = 0; i < w1xList.Count; ++i)
+        //add in one of pf2
+            for (int i = 0; i < w1xList_pf1.Count; ++i)
             {
-                map.Series["Weight1"].Points.AddXY(w1xList[i], w1yList[i]);
+                map.Series["Weight1"].Points.AddXY(w1xList_pf1[i], w1yList_pf1[i]);
             }
-            for (int i = 0; i < w2xList.Count; ++i)
+            for (int i = 0; i < w2xList_pf1.Count; ++i)
             {
-                map.Series["Weight2"].Points.AddXY(w2xList[i], w2yList[i]);
+                map.Series["Weight2"].Points.AddXY(w2xList_pf1[i], w2yList_pf1[i]);
             }
-            for (int i = 0; i < w3xList.Count; ++i)
+            for (int i = 0; i < w3xList_pf1.Count; ++i)
             {
-                map.Series["Weight3"].Points.AddXY(w3xList[i], w3yList[i]);
+                map.Series["Weight3"].Points.AddXY(w3xList_pf1[i], w3yList_pf1[i]);
             }
             map.Series["Predicted Shark"].Points.AddXY(PredictedSharkXList[0], PredictedSharkYList[0]);
-            map.Series["Shark"].Points.AddXY(particle_filter.s1.shark_list_x[0], particle_filter.s1.shark_list_y[0]);
+            map.Series["Shark"].Points.AddXY(MyGlobals.s1.shark_list_x[0], MyGlobals.s1.shark_list_y[0]);
             double hey = particle_filter.r1.robot_list_x.Count;
             //double yes = particle_filter.r1.robot_list_y[0];
             map.Series["Robot"].Points.AddXY(particle_filter.r1.robot_list_x[0], particle_filter.r1.robot_list_y[0]);

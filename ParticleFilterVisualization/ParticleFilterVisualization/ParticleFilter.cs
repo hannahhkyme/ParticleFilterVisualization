@@ -7,7 +7,6 @@ namespace ParticleFilterVisualization
         public int NUMBER_OF_PARTICLES;
         public double Current_Time;
         public List<Particle> particleList = new List<Particle>();
-        public Shark s1;
         public Robot r1;
         public List<double> w1_list_x;
         public List<double> w1_list_y;
@@ -25,7 +24,6 @@ namespace ParticleFilterVisualization
             this.Current_Time = 0;
             this.NUMBER_OF_PARTICLES = 1000;
             this.r1 = new Robot();
-            this.s1 = new Shark();
             this.w1_list_x = new List<double>();
             this.w2_list_x = new List<double>();
             this.w3_list_x = new List<double>();
@@ -39,13 +37,13 @@ namespace ParticleFilterVisualization
     public double calc_range_error()
     {
         // calculates the average particles position to the true sharks' position
-        double auvRange = Math.Sqrt(Math.Pow((s1.Y-r1.Y), 2) + Math.Pow((s1.X - r1.X), 2));
+        double auvRange = Math.Sqrt(Math.Pow((MyGlobals.s1.Y-r1.Y), 2) + Math.Pow((MyGlobals.s1.X - r1.X), 2));
         return auvRange;
     }
     double calc_alpha_error()
     {
         // calculates the average particles position to the true sharks' position
-        double auvAlpha = MyGlobals.angle_wrap(Math.Atan2((s1.Y - r1.Y), (s1.X - r1.X)) - r1.THETA);
+        double auvAlpha = MyGlobals.angle_wrap(Math.Atan2((MyGlobals.s1.Y - r1.Y), (MyGlobals.s1.X - r1.X)) - r1.THETA);
         return auvAlpha;
     }
 
