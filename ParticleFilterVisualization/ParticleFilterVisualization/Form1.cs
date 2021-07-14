@@ -32,6 +32,7 @@ namespace ParticleFilterVisualization
 
         Boolean stopHere = true;
         List<double> errorList = new List<double>();
+        List<double> errorList2 = new List<double>();
         List<double> PredictedSharkXList = new List<double>();
         List<double> PredictedSharkYList = new List<double>();
         public Form1()
@@ -42,14 +43,20 @@ namespace ParticleFilterVisualization
         public void create_simulation()
         {
             particle_filter.create();
+            particle_filter2.create();
+            particle_filter2.r1.X = 100;
+            particle_filter2.r1.Y = -100;
             MyGlobals.s1.create_shark_list();
             particle_filter.r1.create_robot_list();
+            particle_filter2.r1.create_robot_list();
         }
 
         private void update_pf()
         {
             particle_filter.update();
             particle_filter.update_weights();
+            particle_filter2.update();
+            particle_filter2.update_weights();
         }
         private void update_weight_lists()
         {
@@ -72,7 +79,7 @@ namespace ParticleFilterVisualization
         private void shark_motion()
         {
             particle_filter.correct();
-
+            particle_filter2.correct();
             // update Shark Location
             MyGlobals.s1.update_shark();
             MyGlobals.s1.create_shark_list();
@@ -83,11 +90,19 @@ namespace ParticleFilterVisualization
             double currentError = Math.Abs(calculateRangeError(predictedList));
             calculate_predicted_shark(predictedList);
             errorList.Add(currentError);
+
+            List<double> predictedList2 = particle_filter.predicting_shark_location();
+            double currentError2 = Math.Abs(calculateRangeError2(predictedList2));
+            errorList2.Add(currentError2);
         }
+        
         private void update_robot_location()
         {
             particle_filter.r1.update_robot_position();
             particle_filter.r1.create_robot_list();
+
+            particle_filter2.r1.update_robot_position();
+            particle_filter2.r1.create_robot_list();
         }
         private void getParticleCoordinates()
         {
@@ -106,6 +121,8 @@ namespace ParticleFilterVisualization
                 particle_filter.weight_list_x();
                 particle_filter.weight_list_y();
 
+                particle_filter2.weight_list_x();
+                particle_filter2.weight_list_y();
                 // make coordinate list 
                 update_weight_lists();
 
@@ -147,6 +164,17 @@ namespace ParticleFilterVisualization
             double rangeError = realRange - particleRange;
             return rangeError;
         }
+        private double calculateRangeError2(List<double> meanList)
+        {
+            double realRange = particle_filter2.calc_range_error();
+            // calc particle range
+            Particle meanParticle = new Particle();
+            meanParticle.X = meanList[0];
+            meanParticle.Y = meanList[1];
+            double particleRange = meanParticle.calc_particle_range(particle_filter2.r1.X, particle_filter2.r1.Y);
+            double rangeError = realRange - particleRange;
+            return rangeError;
+        }
 
         private void calculate_predicted_shark(List<double> meanList)
         {
@@ -163,9 +191,16 @@ namespace ParticleFilterVisualization
             map.Series["Weight3"].Points.Clear();
             map.Series["Shark"].Points.Clear();
             map.Series["Robot"].Points.Clear();
-           
-            
-        //add in one of pf2
+
+            map.Series["Other Weight1"].Points.Clear();
+            map.Series["Other Weight2"].Points.Clear();
+            map.Series["Other Weight3"].Points.Clear();
+            map.Series["Robot 2"].Points.Clear();
+
+            map.Series["Predicted Shark"].Points.AddXY(PredictedSharkXList[0], PredictedSharkYList[0]);
+            map.Series["Shark"].Points.AddXY(MyGlobals.s1.shark_list_x[0], MyGlobals.s1.shark_list_y[0]);
+
+            //add in one of pf2
             for (int i = 0; i < w1xList_pf1.Count; ++i)
             {
                 map.Series["Weight1"].Points.AddXY(w1xList_pf1[i], w1yList_pf1[i]);
@@ -178,11 +213,26 @@ namespace ParticleFilterVisualization
             {
                 map.Series["Weight3"].Points.AddXY(w3xList_pf1[i], w3yList_pf1[i]);
             }
-            map.Series["Predicted Shark"].Points.AddXY(PredictedSharkXList[0], PredictedSharkYList[0]);
-            map.Series["Shark"].Points.AddXY(MyGlobals.s1.shark_list_x[0], MyGlobals.s1.shark_list_y[0]);
+            
             double hey = particle_filter.r1.robot_list_x.Count;
             //double yes = particle_filter.r1.robot_list_y[0];
             map.Series["Robot"].Points.AddXY(particle_filter.r1.robot_list_x[0], particle_filter.r1.robot_list_y[0]);
+            
+
+            
+             for (int i = 0; i < w1xList_pf2.Count; ++i)
+            {
+                map.Series["Other Weight1"].Points.AddXY(w1xList_pf2[i], w1yList_pf2[i]);
+            }
+            for (int i = 0; i < w2xList_pf2.Count; ++i)
+            {
+                map.Series["Other Weight2"].Points.AddXY(w2xList_pf2[i], w2yList_pf2[i]);
+            }
+            for (int i = 0; i < w3xList_pf2.Count; ++i)
+            {
+                map.Series["Other Weight3"].Points.AddXY(w3xList_pf2[i], w3yList_pf2[i]);
+            }
+            map.Series["Robot 2"].Points.AddXY(particle_filter2.r1.robot_list_x[0], particle_filter2.r1.robot_list_y[0]);
             
         }
 
